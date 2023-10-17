@@ -1,27 +1,56 @@
-<script setup lang="ts">
-	import ProgressBar from "../components/ProgressBar.vue";
-	import { useMonitoring } from "../services/nzxt";
-	const { icpu, igpu } = useMonitoring();
+<script lang="ts">
+	import { Component, Vue, toNative, Prop, Watch } from "vue-facing-decorator";
+	import { Ref, watch } from "vue";
+	import { Cpu, Gpu, Ram, Kraken } from "@nzxt/web-integrations-types/v1";
+	import { useMonitoring, NZXTShareData } from "../services/nzxt";
+	import DualInfo from "../Screens/DualInfo.vue";
+	import NowPlaying from "../Screens/NowPlaying.vue";
+
+	@Component({
+		components: {
+			DualInfo,
+			NowPlaying,
+		},
+	})
+	class Screen extends Vue {
+		NZXTShareData: NZXTShareData = new NZXTShareData();
+		panel!: string;
+		icpu!: Ref<Cpu | undefined>;
+		igpu!: Ref<Gpu | undefined>;
+		iram!: Ref<Ram | undefined>;
+		ikraken!: Ref<Kraken | undefined>;
+
+		mounted() {
+			console.log("%cScreen mounted", "color:yellow");
+			const { icpu, igpu, iram, ikraken } = useMonitoring();
+			this.icpu = icpu;
+			this.igpu = igpu;
+			this.iram = iram;
+			this.ikraken = ikraken;
+
+			window.addEventListener("storage", (e) => {
+				if (e.key == "NZXTShareData") {
+					this.NZXTShareData.update(JSON.parse(e.newValue || "{}"));
+				}
+			});
+		}
+		get getCurrentPanel() {
+			if (this.NZXTShareData.panel == "auto") {
+				// todo: auto panel
+				return this.NZXTShareData.panel;
+			}
+
+			return this.NZXTShareData.panel;
+		}
+	}
+	export default toNative(Screen);
 </script>
 
 <template>
-	<div class="h-screen w-screen">
-		<div class="flex flex-col">
-			<div class="flex items-end justify-between">
-				<div class="text-3xl font-bold">CPU</div>
-				<div class="text-7xl font-bold">{{ Math.round(icpu?.temperature as number) }}°</div>
-			</div>
-			<div class="flex flex-col gap-2">
-				<ProgressBar :progress="(icpu?.temperature as number)" />
-				<ProgressBar :progress="(igpu?.temperature as number)" color="red" />
-			</div>
+	<div class="w-screen h-100vw bg-black">
+		<DualInfo :icpu="icpu" :igpu="igpu" v-if="panel == getCurrentPanel" />
 
-			<div class="flex items-start justify-between">
-				<div class="text-3xl font-bold">GPU</div>
-				<div class="text-7xl font-bold">{{ Math.round(igpu?.temperature as number) }}°</div>
-			</div>
-		</div>
-		<p class="text-3xl font-bold text-center">NZXT</p>
+		<NowPlaying />
 	</div>
 </template>
 

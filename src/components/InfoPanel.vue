@@ -1,36 +1,38 @@
-<script setup lang="ts">
-	import { Cpu, Gpu, Ram } from "@nzxt/web-integrations-types/v1";
-	const props = defineProps({
-		icpu: {
-			type: Object as () => Cpu | undefined,
-			required: true,
-		},
-		igpu: {
-			type: Object as () => Gpu | undefined,
-			required: true,
-		},
-	});
+<script lang="ts">
+	import { Cpu, Gpu, Ram, Kraken } from "@nzxt/web-integrations-types/v1";
+	import { Component, Vue, toNative, Prop } from "vue-facing-decorator";
+
+	@Component
+	class InfoPanel extends Vue {
+		@Prop icpu!: Cpu;
+		@Prop igpu!: Gpu;
+		@Prop iram!: Ram;
+		@Prop ikraken!: Kraken;
+	}
+
+	export default toNative(InfoPanel);
 </script>
 
 <template>
-	<div class="w-180px flex flex-col items-center my-3">
-		<div>
+	<div class="p-5">
+		<p class="text-2xl">系統資訊</p>
+		<div class="w-150px">
 			<p class="text-lg text-$color-primary">CPU</p>
 			<div class="flex flex-col justify-start">
 				<div>
-					Temperature:
-					{{ Math.round(((icpu?.temperature as number) * 10) / 10) }}°C
+					溫度:
+					{{ Math.round((icpu?.temperature as number) * 10) / 10 }}°C
 				</div>
-				<div>Load: {{ Math.round((icpu?.load as number) * 1000) / 10 }}%</div>
+				<div>負載: {{ Math.round((icpu?.load as number) * 1000) / 10 }}%</div>
 			</div>
 
 			<p class="text-lg text-$nzxt-color">GPU</p>
 			<div class="flex-row">
 				<div>
-					Temperature:
-					{{ Math.round(((igpu?.temperature as number) * 10) / 10) }}°C
+					溫度:
+					{{ Math.round((igpu?.temperature as number) * 10) / 10 }}°C
 				</div>
-				<div>Load: {{ Math.round((igpu?.load as number) * 1000) / 10 }}%</div>
+				<div>負載: {{ Math.round((igpu?.load as number) * 1000) / 10 }}%</div>
 			</div>
 		</div>
 	</div>

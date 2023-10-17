@@ -8,8 +8,17 @@ Web integrations with NowPlaying for the NZXT Kraken series.
 Supports the following Muisc Players:
 - Cider 2
 
+# Usage
+Copy the url below and paste it into the **"custom web integration"** field in the NZXT CAM software.
+```
+https://henry753951.github.io/nzxt-web-integrations-cider/
+```
 
-# build by yourself
+You can also configure this integration by **"Configure"** button.
+
+
+
+# Build by yourself
 
 ```bash
 git clone https://github.com/henry753951/nzxt-web-integrations-cider.git
@@ -22,13 +31,15 @@ cd nzxt-web-integrations-cider
 ```bash
 pnpm install
 ```
-## build
+### build
 
 ```bash
 pnpm run build
 ```
-# Development
+### Development
 
 ```bash
 pnpm run dev
 ```
+
+base path is `http://<hostname>/nzxt-web-integrations-cider/`

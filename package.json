@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@nzxt/web-integrations-types": "^0.4.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-facing-decorator": "^3.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
