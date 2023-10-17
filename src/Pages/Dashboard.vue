@@ -13,6 +13,7 @@
 	class Dashboard extends Vue {
 		NZXTShareData: NZXTShareData = new NZXTShareData();
 		panel!: string;
+		player!: string;
 
 		icpu!: Ref<Cpu | undefined>;
 		igpu!: Ref<Gpu | undefined>;
@@ -36,11 +37,19 @@
 			localStorage.setItem("NZXTShareData", JSON.stringify(this.NZXTShareData));
 		}
 
+		@Watch("player")
+		PlayerChange(newValue: string, oldValue: string) {
+			console.log(`%cChange player to ${newValue}`, "color:lightblue");
+			this.NZXTShareData.player = newValue;
+			localStorage.setItem("NZXTShareData", JSON.stringify(this.NZXTShareData));
+		}
+
 		updateNZXTShareData() {
 			this.NZXTShareData.update(
 				JSON.parse(localStorage.getItem("NZXTShareData") || "{}")
 			);
 			this.panel = this.NZXTShareData.panel;
+			this.player = this.NZXTShareData.player;
 		}
 
 		resetAllData() {
@@ -54,23 +63,46 @@
 </script>
 
 <template>
-	<div class="max-w-850px w-screen p-3">
-		<p class="text-3xl font-bold text-center">Dashboard {{}}</p>
-		<div class="flex">
+	<div class="w-screen max-w-850px">
+		<div class="flex justify-between m-3 p-4 px-7 bg-dark-900 rounded-2xl">
+			<p class="text-3xl font-bold text-center">Dashboard</p>
+			<button
+				class="bg-$color-primary rounded-md px-2 py-1"
+				@click="resetAllData">
+				Reset
+			</button>
+		</div>
+
+		<div class="flex p-3">
 			<div class="bg-dark-400 rounded-3xl m-2">
 				<InfoPanel :icpu="icpu" :igpu="igpu" />
 			</div>
 
-			<div class="w-full">
-				<select v-model="panel">
-					<option value="dual_data">雙資訊</option>
-					<option value="current_song">Cider</option>
-				</select>
+			<div class="w-full px-4 flex flex-col gap-3">
+				<div class="flex justify-between">
+					<p class="text-xl font-bold">面板</p>
+					<select v-model="panel">
+						<option value="dual_data">雙資訊</option>
+						<option value="current_song">音樂</option>
+						<option value="auto">自動</option>
+					</select>
+				</div>
+
+				<div class="flex justify-between">
+					<p class="text-xl font-bold">播放器</p>
+					<select v-model="player">
+						<option value="cider2">Cider 2</option>
+					</select>
+				</div>
 			</div>
 			<div>
 				{{ NZXTShareData }}
-				<iframe src="/?kraken=1" frameborder="0"></iframe>
-				<button class="bg-$color-primary rounded-md px-2 py-1" @click="resetAllData">Reset</button>
+
+				<iframe
+					src="/?kraken=1"
+					frameborder="0"
+					width="250px"
+					height="250px"></iframe>
 			</div>
 		</div>
 	</div>

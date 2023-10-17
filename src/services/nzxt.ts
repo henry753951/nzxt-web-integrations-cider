@@ -10,6 +10,10 @@ import { provide, ref } from "vue";
 export class NZXTShareData {
 	panel: string = "dual_data";
 	player!: string;
+
+	constructor() {
+		this.update(JSON.parse(localStorage.getItem("NZXTShareData") || "{}"));
+	}
 	update(json: any) {
 		console.log(`NZXTShareData.update(${JSON.stringify(json)})`);
 		if ("panel" in json) this.panel = json.panel;
