@@ -83,7 +83,7 @@
 					<p class="text-xl font-bold">面板</p>
 					<select v-model="panel">
 						<option value="dual_data">雙資訊</option>
-						<option value="current_song">音樂</option>
+						<option value="now_playing">音樂</option>
 						<option value="auto">自動</option>
 					</select>
 				</div>

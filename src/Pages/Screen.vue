@@ -3,7 +3,7 @@
 	import { Ref, watch } from "vue";
 	import { Cpu, Gpu, Ram, Kraken } from "@nzxt/web-integrations-types/v1";
 	import { useMonitoring, NZXTShareData } from "../services/nzxt";
-	import { isPlaying } from "../services/music";
+	import { isPlaying, currentPlayingSong } from "../services/music";
 	import DualInfo from "../Screens/DualInfo.vue";
 	import NowPlaying from "../Screens/NowPlaying.vue";
 	@Component({
@@ -19,26 +19,24 @@
 		iram!: Ref<Ram | undefined>;
 		ikraken!: Ref<Kraken | undefined>;
 
+		currentSong!: any;
+
 		check_interval!: number;
 		playingState: boolean = false;
+		GetPlayerData() {
+			isPlaying(this.NZXTShareData.player).then((state) => {
+				this.playingState = state;
+			});
+			currentPlayingSong(this.NZXTShareData.player).then((song) => {
+				if (song != true) this.currentSong = song;
+			});
+		}
 
 		SetCheckInterval() {
 			clearInterval(this.check_interval);
-			switch (this.NZXTShareData.player) {
-				case "cider2":
-					isPlaying("cider2").then((state) => {
-						this.playingState = state;
-					});
-					break;
-			}
+			this.GetPlayerData();
 			this.check_interval = setInterval(() => {
-				switch (this.NZXTShareData.player) {
-					case "cider2":
-						isPlaying("cider2").then((state) => {
-							this.playingState = state;
-						});
-						break;
-				}
+				this.GetPlayerData();
 			}, 1000);
 		}
 
@@ -50,7 +48,7 @@
 			this.iram = iram;
 			this.ikraken = ikraken;
 			if (
-				this.NZXTShareData.panel == "current_song" ||
+				this.NZXTShareData.panel == "now_playing" ||
 				this.NZXTShareData.panel == "auto"
 			) {
 				this.SetCheckInterval();
@@ -60,7 +58,7 @@
 				if (e.key == "NZXTShareData") {
 					this.NZXTShareData.update(JSON.parse(e.newValue || "{}"));
 					if (
-						this.NZXTShareData.panel == "current_song" ||
+						this.NZXTShareData.panel == "now_playing" ||
 						this.NZXTShareData.panel == "auto"
 					) {
 						this.SetCheckInterval();
@@ -88,10 +86,13 @@
 </script>
 
 <template>
-	<div class="w-screen h-100vw bg-black">
+	<div
+		class="w-screen h-100vw bg-black"
+		style="max-width: 100vw; overflow: hidden">
 		<DualInfo :icpu="icpu" :igpu="igpu" v-if="getCurrentPanel == 'dual_data'" />
-
-		<NowPlaying v-else-if="getCurrentPanel == 'now_playing'" />
+		<NowPlaying
+			v-else-if="getCurrentPanel == 'now_playing'"
+			:currentSong="currentSong" />
 	</div>
 </template>
 
