@@ -4,7 +4,6 @@
 	import { Cpu, Gpu, Ram, Kraken } from "@nzxt/web-integrations-types/v1";
 	import { NZXTShareData, useMonitoring } from "../services/nzxt";
 	import InfoPanel from "../components/InfoPanel.vue";
-
 	@Component({
 		components: {
 			InfoPanel,
@@ -19,6 +18,8 @@
 		igpu!: Ref<Gpu | undefined>;
 		iram!: Ref<Ram | undefined>;
 		ikraken!: Ref<Kraken | undefined>;
+
+		hostname: string = window.location.origin;
 
 		mounted() {
 			console.log("%cDashboard mounted", "color:yellow");
@@ -99,7 +100,7 @@
 				{{ NZXTShareData }}
 
 				<iframe
-					src="/nzxt-web-integrations-cider/?kraken=1"
+					:src="`${hostname}/nzxt-web-integrations-cider/?kraken=1`"
 					frameborder="0"
 					width="250px"
 					height="250px"></iframe>
