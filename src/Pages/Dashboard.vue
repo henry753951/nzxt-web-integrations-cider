@@ -99,7 +99,7 @@
 				{{ NZXTShareData }}
 
 				<iframe
-					src="/?kraken=1"
+					src="/nzxt-web-integrations-cider/?kraken=1"
 					frameborder="0"
 					width="250px"
 					height="250px"></iframe>
