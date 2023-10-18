@@ -97,7 +97,7 @@
 				</div>
 			</div>
 			<div>
-				{{ NZXTShareData }}
+				<!-- {{ NZXTShareData }} -->
 
 				<iframe
 					:src="`${hostname}/nzxt-web-integrations-cider/?kraken=1`"
