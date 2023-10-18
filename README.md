@@ -18,9 +18,9 @@ https://henry753951.github.io/nzxt-web-integrations-cider/
 
 You can also configure this integration by **"Configure"** button.
 
-![image](https://github.com/henry753951/nzxt-web-integrations-cider/assets/31657781/488c7bd5-ff10-4614-8cee-00e3fc2e966c)
+![image](https://github.com/henry753951/nzxt-web-integrations-cider/assets/31657781/0a16c064-a998-448c-8844-7222d93fbba5)
+![image](https://github.com/henry753951/nzxt-web-integrations-cider/assets/31657781/92779126-b2b7-4867-8bf4-a122de5ac765)
 
-![image](https://github.com/henry753951/nzxt-web-integrations-cider/assets/31657781/12769af3-a320-4649-a7f1-6b48dbca6edb)
 
 # Build by yourself
 
