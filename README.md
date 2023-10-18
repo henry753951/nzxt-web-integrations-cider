@@ -1,5 +1,7 @@
 # NZXT web integrations cider
 
+The current versoin is designed for compatibility with the karken **NON**-Elite series. (KR360RGB...)
+
 Web integrations with NowPlaying for the NZXT Kraken series.
 - Show your Kraken and PC status on LCD.
 - Now playing widget on LCD.
