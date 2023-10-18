@@ -37,7 +37,7 @@
 			this.GetPlayerData();
 			this.check_interval = setInterval(() => {
 				this.GetPlayerData();
-			}, 1000);
+			}, 2000);
 		}
 
 		mounted() {
@@ -89,11 +89,46 @@
 	<div
 		class="w-screen h-100vw bg-black"
 		style="max-width: 100vw; overflow: hidden">
-		<DualInfo :icpu="icpu" :igpu="igpu" v-if="getCurrentPanel == 'dual_data'" />
-		<NowPlaying
-			v-else-if="getCurrentPanel == 'now_playing'"
-			:currentSong="currentSong" />
+		<DualInfo :icpu="icpu" :igpu="igpu" />
+		<div
+			class="NowPlaying-wrap"
+			:class="{ active: getCurrentPanel == 'now_playing' }">
+			<div
+				class="NowPlaying"
+				:class="{ active: getCurrentPanel == 'now_playing' }">
+				<NowPlaying :currentSong="currentSong" />
+			</div>
+		</div>
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+	.NowPlaying-wrap {
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+	
+		position: fixed;
+		max-width: 120vw;
+		max-height: 120vw;
+		overflow: hidden;
+		width: 120vw;
+		height: 120vw;
+		background-color: rgba(0, 0, 0, 0);
+		transition: all 0.5s ease-in-out;
+	}
+	.NowPlaying-wrap.active {
+		background-color: rgba(0, 0, 0, 0.651);
+		backdrop-filter: blur(10px);
+	}
+	.NowPlaying {
+		opacity: 0;
+		transform: translateY(30%) scale(0.7);
+		transition: all 0.5s ease-in-out;
+	}
+
+	.NowPlaying.active {
+		opacity: 1;
+		transform: translateY(0%) scale(1);
+	}
+</style>

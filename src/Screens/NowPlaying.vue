@@ -36,13 +36,23 @@
 				}
 			}
 		}
+
+		get songProgress() {
+			if (this.currentSong) {
+				return this.currentSong.currentPlaybackProgress*100 + "%";
+			}
+			return "0%";
+		}
 	}
 	export default toNative(NowPlaying);
 </script>
 
 <template>
 	<div class="flex flex-col justify-center items-center">
-		<img :src="songImage" class="w-80vw h-80vw" />
+		<img :src="songImage" class="w-75vw h-75vw mt-8" />
+		<div class="w-75vw h-5px bg-black" >
+			<div class="bg-light-50 h-5px" :style="{width:songProgress}"></div>
+		</div>
 		<div
 			ref="songref"
 			class="font-bold max-w-100vw"
